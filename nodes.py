@@ -27,13 +27,13 @@ def encode_image(tensor):
     return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode("ascii")
 
 def cache_file_for(unique_id):
-    directory = Path(os.environ.get("KIRA_PROMPT_CACHE_DIR", Path(__file__).resolve().parent / ".prompt_cache"))
+    directory = Path(os.environ.get("MINIMAX_R2V_PROMPT_CACHE_DIR", Path(__file__).resolve().parent / ".prompt_cache"))
     directory.mkdir(parents=True, exist_ok=True)
     hashed = hashlib.sha256(str(unique_id).encode()).hexdigest()[:24]
     return directory / (hashed + ".json")
 
-class KiraPromptBuilder:
-    CATEGORY = "Kira"
+class MiniMaxR2VPromptBuilder:
+    CATEGORY = "MiniMax"
     FUNCTION = "generate"
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("prompt_text",)
@@ -42,7 +42,7 @@ class KiraPromptBuilder:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "creative_brief": ("STRING", {"multiline": True, "default": "Kira relaxing in a hammock. Natural playful poses."}),
+                "creative_brief": ("STRING", {"multiline": True, "default": "A person relaxing on a terrace. Natural poses and subtle movement."}),
                 "system_prompt": ("STRING", {"multiline": True, "default": DEFAULT_SYSTEM}),
                 "shot_mode": (["auto", "selfie", "mirror_selfie", "regular"],),
                 "lock_prompt": ("BOOLEAN", {"default": False}),
@@ -70,7 +70,7 @@ class KiraPromptBuilder:
 
         modes = {
             "auto": "Choose a suitable camera perspective.",
-            "selfie": "Camera is Kira's own handheld phone; the phone must not appear.",
+            "selfie": "Camera is the subject's own handheld phone; the phone must not appear.",
             "mirror_selfie": "Mirror selfie with phone potentially visible in reflection.",
             "regular": "Third-person camera, not a selfie.",
         }
@@ -88,7 +88,7 @@ class KiraPromptBuilder:
         base = api_base.strip().rstrip("/")
         if not (base.startswith("https://") or base.startswith("http://localhost:") or base.startswith("http://127.0.0.1:")):
             raise ValueError("Remote vision APIs must use HTTPS; local HTTP is allowed.")
-        key = os.environ.get("KIRA_VLM_API_KEY", "")
+        key = os.environ.get("MINIMAX_R2V_VLM_API_KEY", "")
         payload = {
             "model": model_name.strip(),
             "messages": [{"role": "system", "content": system_prompt},
