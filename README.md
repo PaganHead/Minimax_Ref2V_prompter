@@ -1,4 +1,4 @@
-# Kira Prompt Builder — ComfyUI
+# MiniMax R2V Prompt Builder — ComfyUI
 
 A single custom node that takes up to four optional reference images and creates a MiniMax H3 prompt using Qwen-VL or another OpenAI-compatible vision model.
 
@@ -8,10 +8,10 @@ Run on your RunPod terminal:
 
 ```bash
 cd /workspace/runpod-slim/ComfyUI/custom_nodes
-git clone https://github.com/PaganHead/Minimax_Ref2V_prompter.git KiraPromptBuilder
+git clone https://github.com/PaganHead/Minimax_Ref2V_prompter.git MiniMaxR2VPromptBuilder
 ```
 
-Then **restart ComfyUI** and add the node **Kira → Kira Prompt Builder**.
+Then **restart ComfyUI** and add the node **MiniMax → MiniMax R2V Prompt Builder**.
 
 ## Configure
 
@@ -19,7 +19,7 @@ The node does not automatically download or run a Qwen model. You must provide a
 
 - **api_base**: URL ending in `/v1` (e.g. your vLLM server)
 - **model_name**: the exact model ID served by the endpoint
-- **KIRA_VLM_API_KEY**: optional environment variable for authenticated APIs (do not put keys in workflow JSON)
+- **MINIMAX_R2V_VLM_API_KEY**: optional environment variable for authenticated APIs (do not put keys in workflow JSON)
 
 Image roles: 1 = location, 2 = character, 3 = outfit, 4 = prop/style. All optional.
 
